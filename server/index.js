@@ -9,12 +9,11 @@ import R from 'ramda'
 
 let config = require('../nuxt.config.js')
 config.dev = !(process.env === 'production')
-const MIDDLEWARE = ['database', 'general', 'router']
 
 const r = path => resolve(__dirname, path)
 const host = process.env.HOST || '127.0.0.1'
 const port = process.env.POST || 3000
-const MIDDLEWARES = ['router']
+const MIDDLEWARES = ['database', 'router']
 
 class Server {
     constructor() {
