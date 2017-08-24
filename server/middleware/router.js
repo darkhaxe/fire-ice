@@ -1,23 +1,13 @@
 import Router from 'koa-router'
 import config from '../config'
-import sha1 from 'sha1'
+import reply from '../wechat/reply'
+import wechatMiddleware from '../wechat-lib/wechatMiddleware'
 
+//路由中间件:处理get,post请求
 export const router = app => {
     const router = new Router()
-    router.get('/wechat-hear', (ctx, next) => {
-        require('../wechat') //项目启动之后再引入
-        const token = config.wechat.token
-        const {signature, nonce, timestamp, echostr}
-            = ctx.query
-        const str = [token, timestamp, nonce].sort().join('')
-        const sha = sha1(str)
-        if (signature === sha) {
-            ctx.body = echostr
-        } else {
-            ctx.body = "failed"
-        }
-    })
+    router.all('/wechat-hear', wechatMiddleware(config.wechat, reply))
 
     app.use(router.routes())
-    app.use(router.allowedMethods())
+        .use(router.allowedMethods())
 }
