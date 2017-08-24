@@ -21,6 +21,7 @@
     "nuxt": "1.0.0-alpha1",
     "path": "^0.12.7",
     "ramda": "^0.24.1",
+    "request-promise": "^4.2.1",
     "sha1": "^1.1.1",
     "source-map-support": "^0.4.15"
   },
