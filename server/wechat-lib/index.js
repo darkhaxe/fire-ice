@@ -22,7 +22,7 @@ export default class Wechat {
         opts = Object.assign({}, opts, {json: true})
         try {
             const resp = await request(opts)
-            console.log('------>' + resp)
+            console.log('/wechat-lib/index.js ------>' + resp)
             return resp
         } catch (e) {
             console.error(e)
