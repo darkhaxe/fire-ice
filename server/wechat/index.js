@@ -3,18 +3,21 @@ import config from '../config'
 import Wechat from '../wechat-lib'
 
 const Token = mongoose.model('Token')
-export const getWechat = () => {
-    return new Wechat(wechatConfig.wechat)
-}
 
+//Token如何关联到getAccessToken() 见/wechat-lib/index.js
 const wechatConfig = {
     wechat: {
         appID: config.wechat.appID,
         appSecret: config.wechat.appSecret,
         token: config.wechat.token,
-        getAccessToken: async () => Token.getAccessToken(),
-        saveAccessToken: async (data) => Token.saveAccessToken(data),
+        getAccessToken: async () => await Token.getAccessToken(),
+        saveAccessToken: async (data) => await Token.saveAccessToken(data),
     }
 }
+
+export const getWechat = () => {
+    return new Wechat(wechatConfig.wechat)
+}
+
 //debug...
 getWechat()

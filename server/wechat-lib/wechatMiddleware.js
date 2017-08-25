@@ -2,16 +2,16 @@
 import config from '../config'
 import sha1 from 'sha1'
 import getRawBody from 'raw-body' //获取http请求的消息体 库
-import * as util from '.util'
+import * as util from './util'
 
 /**
- *
+ * 微信请求消息处理函数
  * @param opts 微信消息体
  * @param reply 回复处理类
  * @returns {wechatMiddleware}
  */
 export default function (opts, reply) {
-    return async function wechatMiddleware() {
+    return async function wechatMiddleware(ctx, next) {
         const token = config.wechat.token
         //获取所有参数
         const {signature, nonce, timestamp, echostr}
@@ -41,10 +41,10 @@ export default function (opts, reply) {
             })
             //XML->JSON 自己的工具类对数据进行解析
             const content = await util.parseXML(data)
-            const message = util.formatMessage(content.xml)
-            ctx.weixin = message
+            ctx.weixin = util.formatMessage(content.xml)
 
             //策略模式:执行时传入当前的上下文
+            //调用reply方法,传入ctx,next
             await reply.apply(ctx, [ctx, next])
             //回复微信服务器的数据 replyBody与msg
             const replyBody = ctx.body
@@ -55,8 +55,6 @@ export default function (opts, reply) {
             ctx.status = 200
             ctx.type = 'application/xml'
             ctx.body = xml
-
-
         }
 
     }

@@ -1,12 +1,12 @@
-//存放全局票据 Schema
-
+// Schema:存放全局票据
+//给mongoose查询绑定自定义方法,最后一行
 const mongoose = require('mongoose')
-const Schema = mongoose.Schema
 
+//字段定义
 const TokenSchema = new mongoose.Schema(
     {
         name: String, //token名
-        access_token: String, //token
+        access_token: String, //token值
         expires_in: Number, //过期时间
         meta: {
             createdAt: {
@@ -20,14 +20,18 @@ const TokenSchema = new mongoose.Schema(
         }
     }
 )
+
+//绑定TokenSchema到mongoose.model(),在服务启动之后全局可以使用mongoose.model('Token')获取自定义的方法
+const TokenModel = mongoose.model('Token', TokenSchema)
+
 //存储前执行此回调函数
 TokenSchema.pre('save', function (next) {
-    "use strict";
     if (this.isNew) {
         this.meta.createdAt = this.meta.updatedAt = Date.now()
     } else {
         this.meta.updatedAt = Date.now()
     }
+    //回调,交出控制权
     next()
 })
 
@@ -35,29 +39,28 @@ TokenSchema.pre('save', function (next) {
 //方法间需要加上逗号
 TokenSchema.statics = {
     async getAccessToken() {
-        const token = await this.findByOne({
-            name: 'access_token'
-        }).exec()
-        if (token && token.token) {
-            token.access_token = token.token
-        }
-        return token
+        return await this.findOne({name: 'access_token'}).exec()
+        // if (token && token.token) {
+        //     token.access_token = token.token
+        // }
     },
     async saveAccessToken(data) {
-        let token = await this.findOne({name: 'access_token'}).exec()
-        if (token) {
-            token.token = data.access_token
-            token.expires_in = data.expires_in
+        let doc = await this.findOne({name: 'access_token'}).exec()
+        if (doc) {
+            doc.access_token = data.access_token
+            doc.expires_in = data.expires_in
         } else {
-            token = new Token({
+            doc = new TokenModel({
                 name: 'access_token',
-                token: data.access_token,
+                access_token: data.access_token,
                 expires_in: data.expires_in,
             })
         }
-        await token.save()
+        try {
+            await doc.save()
+        } catch (e) {
+            console.error('存储失败:' + e)
+        }
         return data
     }
 }
-
-const Token = mongoose.model('Token', TokenSchema)

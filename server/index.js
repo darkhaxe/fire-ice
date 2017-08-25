@@ -8,7 +8,7 @@ import Nuxt from 'nuxt'
 import R from 'ramda'
 
 let config = require('../nuxt.config.js')
-config.dev = !(process.env === 'production')
+config.dev = !(process.env === 'production') //判断是否生产环境
 
 const r = path => resolve(__dirname, path)
 const host = process.env.HOST || '127.0.0.1'
@@ -26,18 +26,18 @@ class Server {
         // R.map(console.log)([1, 2, 3])
         // MIDDLEWARE 数组交给了 R.map
         // 分别拿到的单个数组中的值，我们可以通过 R.compose 再次进行组合。
-        return R.map(R.compose(
-            R.map(i => i(app)),
-            require,
-            i => `${r('./middleware')}/${i}`)
+        return R.map(
+            R.compose(
+                R.map(i => i(app)),
+                require,
+                i => `${r('./middleware')}/${i}`
+            )
         )
     }
 
     async start() {
-        console.log(1)
-        const nuxt = await new Nuxt(config);
-        console.log(2)
-
+        const nuxt = await new Nuxt(config)
+        //测试环境
         if (conf.env !== 'production') {
             try {
                 await nuxt.build()
@@ -49,6 +49,7 @@ class Server {
 
         this.app.use(async (ctx, next) => {
             ctx.status = 200
+            //渲染html
             await nuxt.render(ctx.req, ctx.res)
         })
         this.app.listen(port, host)

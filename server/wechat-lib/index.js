@@ -8,14 +8,14 @@ const api = {
     accessToken: base_url + '/token?grant_type=client_credential&appid=APPID&secret=APPSECRET'
 }
 
-class Wechat {
+export default class Wechat {
     constructor(opts) {
         this.opts = Object.assign({}, opts)
         this.appID = opts.appID
         this.appSecret = opts.appSecret
         this.getAccessToken = opts.getAccessToken
         this.saveAccessToken = opts.saveAccessToken
-        this.fetchAcessToken()
+        this.fetchAccessToken()
     }
 
     async request(opts) {
@@ -29,23 +29,20 @@ class Wechat {
         }
     }
 
-    async fetchAcessToken() {
+    async fetchAccessToken() {
         if (this._isValid(data)) {
             return await this.updateAccessToken()
         }
 
     }
 
-
     async updateAccessToken() {
         const url = api.accessToken + '&appid=' + this.appID + '&secret=' + this.appSecret
         const data = await this.request({url: url})
         //20s缓冲时间
-        const expiresIn = new Date().getTime() + (data.expires_in - 20) * 1000
-        data.expires_in = expiresIn
+        data.expires_in = new Date().getTime() + (data.expires_in - 20) * 1000
         return data
     }
-
 
     /**
      * 判断token是否有效
