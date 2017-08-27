@@ -1,5 +1,5 @@
 //JSON<->XML 转换工具类
-import template from 'tpl'
+import template from './tpl'
 import xml2js from 'xml2js'
 
 /**
