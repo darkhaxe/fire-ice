@@ -25,6 +25,11 @@ export default async (ctx, next) => {
         if (msg.Content === '1') { //调试
             console.log(await client.handle('fetchUserList'))
         }
+        else if (msg.Content === '2') { //调试 删除菜单再重建
+            const menu = require('./menu').default
+            await client.handle('delMenu')
+            console.log(await client.handle('createMenu', menu))
+        }
     }
 
     ctx.body = tip
