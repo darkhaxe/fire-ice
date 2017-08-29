@@ -20,7 +20,7 @@ export default function (opts, reply) {
         //2.加密校验,确认参数合法
         const str = [token, timestamp, nonce].sort().join('')
         const sha = sha1(str)
-        //3.分不同的处理策略
+        //3.不同的HTTP请求
         if (ctx.method === 'GET') {
             if (signature === sha) {
                 ctx.body = echostr

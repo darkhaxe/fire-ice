@@ -6,9 +6,9 @@ import fs from 'fs'
 import * as _ from 'lodash'
 
 
-const base_url = 'https://api.weixin.qq.com/cgi-bin'
+const base = 'https://api.weixin.qq.com/cgi-bin'
 const api = { //存放微信各类接口
-    accessToken: base_url + '/token?grant_type=client_credential&appid=APPID&secret=APPSECRET',
+    accessToken: base + '/token?grant_type=client_credential&appid=APPID&secret=APPSECRET',
     temporary: {//临时素材
         upload: base + 'media/upload?',
         fetch: base + 'media/get?'
@@ -23,6 +23,36 @@ const api = { //存放微信各类接口
         count: base + 'material/get_materialcount?',
         batch: base + 'material/batchget_material?'
     },
+    tag: { //标签管理
+        create: base + 'tags/create?',
+        fetch: base + 'tags/get?',
+        update: base + 'tags/update?',
+        del: base + 'tags/delete?',
+        fetchUsers: base + 'user/tag/get?',
+        batchTag: base + 'tags/members/batchtagging?',
+        batchUnTag: base + 'tags/members/batchuntagging?',
+        getTagList: base + 'tags/getidlist?'
+    },
+    user: { //用户管理
+        remark: base + 'user/info/updateremark?',
+        info: base + 'user/info?',
+        batchInfo: base + 'user/info/batchget?',
+        fetchUserList: base + 'user/get?',
+        getBlackList: base + 'tags/members/getblacklist?',
+        batchBlackUsers: base + 'tags/members/batchblacklist?',
+        batchUnblackUsers: base + 'tags/members/batchunblacklist?'
+    },
+    menu: {
+        create: base + 'menu/create?',
+        get: base + 'menu/get?',
+        del: base + 'menu/delete?',
+        addCondition: base + 'menu/addconditional?',
+        delCondition: base + 'menu/delconditional?',
+        getInfo: base + 'get_current_selfmenu_info?'
+    },
+    ticket: {
+        get: base + 'ticket/getticket?'
+    }
 
 }
 
@@ -145,7 +175,7 @@ export default class Wechat {
             media_id: mediaId
         }
         const url = api.permanent.del + 'access_token=' + token + '&media_id' + mediaId
-
+        //发送请求的配置项
         return {method: 'POST', url: url, body: form}
     }
 
@@ -176,4 +206,123 @@ export default class Wechat {
         return {method: 'POST', url: url, body: options}
     }
 
+    createTag(token, name) {
+        const form = {
+            tag: {
+                name: name
+            }
+        }
+        const url = api.tag.create + 'access_token=' + token
+
+        return {method: 'POST', url: url, body: form}
+    }
+
+    fetchTags(token) {
+        const url = api.tag.fetch + 'access_token=' + token
+
+        return {url: url}
+    }
+
+    updateTag(token, tagId, name) {
+        const form = {
+            tag: {
+                id: tagId,
+                name: name
+            }
+        }
+
+        const url = api.tag.update + 'access_token=' + token
+
+        return {method: 'POST', url: url, body: form}
+    }
+
+    delTag(token, tagId) {
+        const form = {
+            tag: {
+                id: tagId
+            }
+        }
+
+        const url = api.tag.del + 'access_token=' + token
+
+        return {method: 'POST', url: url, body: form}
+    }
+
+    remarkUser(token, openId, remark) {
+        const form = {
+            openid: openId,
+            remark: remark
+        }
+        const url = api.user.remark + 'access_token=' + token
+
+        return {method: 'POST', url: url, body: form}
+    }
+
+    getUserInfo(token, openId, lang) {
+        const url = `${api.user.info}access_token=${token}&openid=${openId}&lang=${lang || 'zh_CN'}`
+
+        return {url: url}
+    }
+
+    batchUserInfo(token, userList) {
+        const url = api.user.batchInfo + 'access_token=' + token
+        const form = {
+            user_list: userList
+        }
+
+        return {method: 'POST', url: url, body: form}
+    }
+
+    fetchUserList(token, openId) {
+        const url = `${api.user.fetchUserList}access_token=${token}&next_openid=${openId || ''}`
+
+        return {url: url}
+    }
+
+    createMenu(token, menu) {
+        const url = api.menu.create + 'access_token=' + token
+
+        return {method: 'POST', url: url, body: menu}
+    }
+
+    getMenu(token) {
+        const url = api.menu.get + 'access_token=' + token
+
+        return {url: url}
+    }
+
+    delMenu(token) {
+        const url = api.menu.del + 'access_token=' + token
+
+        return {url: url}
+    }
+
+    addConditionMenu(token, menu, rule) {
+        const url = api.menu.addCondition + 'access_token=' + token
+        const form = {
+            button: menu,
+            matchrule: rule
+        }
+
+        return {method: 'POST', url: url, body: form}
+    }
+
+    delConditionMenu(token, menuId) {
+        const url = api.menu.delCondition + 'access_token=' + token
+        const form = {
+            menuid: menuId
+        }
+
+        return {method: 'POST', url: url, body: form}
+    }
+
+    getCurrentMenuInfo(token) {
+        const url = api.menu.getInfo + 'access_token=' + token
+
+        return {url: url}
+    }
+
+    sign(ticket, url) {
+        return sign(ticket, url)
+    }
 }
