@@ -56,7 +56,7 @@ const api = { //存放微信各类接口
 
 }
 
-export default class Wechat {
+export default class WechatApi {
     constructor(opts) {
         this.opts = Object.assign({}, opts)
         this.appID = opts.appID
@@ -66,16 +66,30 @@ export default class Wechat {
         this.fetchAccessToken()
     }
 
-    async request(opts) {
+    /**
+     *统一请求wechat
+     */
+    async requestWeChat(opts) {
         opts = Object.assign({}, opts, {json: true})
         try {
-            const resp = await request(opts)
-            console.log('/wechat-lib/index.js ------>' + resp)
-            return resp
+            return await request(opts)
         } catch (e) {
             console.error(e)
         }
     }
+
+    /**
+     * 动态调用本类方法
+     * @param operation 方法名:uploadMaterial/deleteMaterial/updateMaterial/countMaterial等等
+     * @param args 各个方法的参数
+     * @returns {Promise.<*>}
+     */
+    async handle(operation, ...args) {
+        const tokenData = await this.fetchAccessToken()
+        const options = this[operation](tokenData.access_token, ...args)
+        return await this.requestWeChat(options)
+    }
+
 
     async fetchAccessToken() {
         if (this._isValid(data)) {
@@ -86,7 +100,7 @@ export default class Wechat {
 
     async updateAccessToken() {
         const url = api.accessToken + '&appid=' + this.appID + '&secret=' + this.appSecret
-        const data = await this.request({url: url})
+        const data = await this.requestWeChat({url: url})
         //20s缓冲时间
         data.expires_in = new Date().getTime() + (data.expires_in - 20) * 1000
         return data
@@ -103,17 +117,6 @@ export default class Wechat {
         return data.expires_in > new Date().getTime()
     }
 
-    /**
-     * 真正执行上传素材
-     * @param operation 方法名:uploadMaterial/deleteMaterial/updateMaterial/countMaterial等等
-     * @param args 各个方法的参数
-     * @returns {Promise.<*>}
-     */
-    async handle(operation, ...args) {
-        const tokenData = await this.fetchAccessToken()
-        const options = this[operation](tokenData.access_token, ...args)
-        return await this.request(options)
-    }
 
     /**
      * 封装上传素材
