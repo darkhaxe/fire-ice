@@ -1,4 +1,4 @@
-import Service from './services'
+import Services from './services'
 import axios from 'axios'
 
 export default {
