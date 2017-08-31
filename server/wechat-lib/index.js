@@ -4,7 +4,7 @@
 import request from 'request-promise'
 import fs from 'fs'
 import * as _ from 'lodash'
-
+import {sign} from './util'
 
 const base = 'https://api.weixin.qq.com/cgi-bin'
 const api = { //存放微信各类接口
@@ -63,6 +63,8 @@ export default class WechatApi {
         this.appSecret = opts.appSecret
         this.getAccessToken = opts.getAccessToken
         this.saveAccessToken = opts.saveAccessToken
+        this.getTicket = opts.getTicket
+        this.saveTicket = opts.saveTicket
         this.fetchAccessToken()
     }
 
@@ -90,31 +92,52 @@ export default class WechatApi {
         return await this.requestWeChat(options)
     }
 
+    /**
+     * 判断token是否有效
+     */
+    static _isValid(data, field) {
+        if (!data || !data[field] || !data.expires_in) {
+            return false
+        }
+        return data.expires_in > new Date().getTime()
+    }
 
     async fetchAccessToken() {
-        if (this._isValid(data)) {
+        let data = await this.getAccessToken
+        if (this._isValid(data, 'token')) {
             return await this.updateAccessToken()
+        }
+        await this.saveAccessToken(data)
+        return data
+
+    }
+
+    async fetchTicket() {
+        let data = await this.getTicket()
+        if (this._isValid(data, 'ticket')) {
+            return await this.updateTicket()
         }
 
     }
 
     async updateAccessToken() {
         const url = api.accessToken + '&appid=' + this.appID + '&secret=' + this.appSecret
-        const data = await this.requestWeChat({url: url})
+        let data = await this.requestWeChat({url: url})
         //20s缓冲时间
         data.expires_in = new Date().getTime() + (data.expires_in - 20) * 1000
         return data
     }
 
-    /**
-     * 判断token是否有效
-     * @param data
-     */
-    static _isValid(data) {
-        if (!data || !data.access_token || !data.expires_in) {
-            return false
-        }
-        return data.expires_in > new Date().getTime()
+    async updateTicket(token) {
+        const url = api.ticket.get + '&access_token=' + token + '&type=jsapi'
+        let data = await this.requestWeChat({url: url})
+        //20s缓冲时间
+        data.expires_in = new Date().getTime() + (data.expires_in - 20) * 1000
+        return data
+    }
+
+    sign(ticket, url) {
+        return this.sign(ticket, url)
     }
 
 

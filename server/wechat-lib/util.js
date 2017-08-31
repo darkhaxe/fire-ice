@@ -1,6 +1,6 @@
-//JSON<->XML 转换工具类
 import template from './tpl'
 import xml2js from 'xml2js'
+import sha1 from 'sha1'
 
 /**
  * xml -> js
@@ -15,6 +15,72 @@ function parseXML(xml) {
         })
     })
 }
+
+/**
+ * 排序
+ * @param args
+ * @returns {string}
+ */
+function sortStr(args) {
+    let keys = Object.keys(args)
+    let newArgs = {}
+    let str = ''
+
+    keys = keys.sort()
+    keys.forEach((key) => {
+        newArgs[key.toLowerCase()] = args[key]
+    })
+
+    for (let k in newArgs) {
+        str += '&' + k + '=' + newArgs[k]
+    }
+
+    return str.substr(1)
+}
+
+/**
+ * sha1加密
+ * @param nonce
+ * @param ticket
+ * @param timestamp
+ * @param url
+ * @returns {*}
+ */
+function signIt(nonce, ticket, timestamp, url) {
+    const ret = { //字典排序
+        jsapi_ticket: ticket,
+        nonceStr: nonce,
+        timestamp: timestamp,
+        url: url
+    }
+
+    return sha1(sortStr(ret))
+}
+
+/**
+ * 生成随机字符串
+ * @returns {string}
+ */
+function createNonce() {
+    return Math.random().toString(36).substr(2, 15)
+}
+
+function createTimestamp() {
+    return parseInt(new Date().getTime() / 1000, 0) + ''
+}
+
+function sign(ticket, url) {
+    const nonce = createNonce()
+    const timestamp = createTimestamp()
+    const signature = signIt(nonce, ticket, timestamp, url)
+
+    return {
+        noncestr: nonce,
+        timestamp: timestamp,
+        signature: signature
+    }
+}
+
 
 function formatMessage(result) {
     let message = {}
@@ -86,5 +152,6 @@ function tpl(content, message) {
 export {
     parseXML,
     formatMessage,
-    tpl
+    tpl,
+    sign
 }

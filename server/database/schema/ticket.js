@@ -3,10 +3,10 @@
 const mongoose = require('mongoose')
 
 //字段定义
-const TokenSchema = new mongoose.Schema(
+const TicketSchema = new mongoose.Schema(
     {
         name: String, //token名
-        access_token: String, //token值
+        ticket: String, //token值
         expires_in: Number, //过期时间
         meta: {
             createdAt: {
@@ -22,10 +22,10 @@ const TokenSchema = new mongoose.Schema(
 )
 
 //绑定TokenSchema到mongoose.model(),在服务启动之后全局可以使用mongoose.model('Token')获取自定义的方法
-const TokenModel = mongoose.model('Token', TokenSchema)
+const TicketModel = mongoose.model('Ticket', TicketSchema)
 
 //存储前执行此回调函数
-TokenSchema.pre('save', function (next) {
+TicketSchema.pre('save', function (next) {
     if (this.isNew) {
         this.meta.createdAt = this.meta.updatedAt = Date.now()
     } else {
@@ -37,22 +37,19 @@ TokenSchema.pre('save', function (next) {
 
 //静态方法
 //方法间需要加上逗号
-TokenSchema.statics = {
+TicketSchema.statics = {
     async getTicket() {
-        return await this.findOne({name: 'access_token'}).exec()
-        // if (token && token.token) {
-        //     token.access_token = token.token
-        // }
+        return await this.findOne({name: 'ticket'}).exec()
     },
     async saveTicket(data) {
-        let doc = await this.findOne({name: 'access_token'}).exec()
+        let doc = await this.findOne({name: 'ticket'}).exec()
         if (doc) {
-            doc.access_token = data.access_token
+            doc.ticket = data.ticket
             doc.expires_in = data.expires_in
         } else {
-            doc = new TokenModel({
-                name: 'access_token',
-                access_token: data.access_token,
+            doc = new TicketModel({
+                name: 'ticket',
+                ticket: data.ticket,
                 expires_in: data.expires_in,
             })
         }
