@@ -1,10 +1,14 @@
 //统一收集需要暴露的api
 import {
-    getSignatureAsync
+    getSignatureAsync,
+    getAuthorizeURL,
+    getUserByCode
 } from "./wechat"
 
 export {
-    getSignatureAsync
+    getSignatureAsync,
+    getAuthorizeURL,
+    getUserByCode
 }
 
 //todo 待删除
