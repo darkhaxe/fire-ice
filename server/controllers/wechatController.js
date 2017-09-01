@@ -23,19 +23,18 @@ export async function signature(ctx, next) {
 export async function redirect(ctx, next) {
     let redirect = config.SITE_ROOT_URL + '/oauth'
     let scope = 'snsapi_userinfo'
-    const {visit, id} = ctx.query
-    const params = id ? `${visit}_${id}` : visit
+    let {visit, id} = ctx.query
+    let params = id ? `${visit}_${id}` : visit
 
-    const url = api.getAuthorizeURL(scope, redirect, params)
+    let url = api.getAuthorizeURL(scope, redirect, params)
 
     ctx.redirect(url)
 }
 
 export async function oauth(ctx, next) {
-    let url = ctx.query.url //客户端传过来的url
-    const urlObj = urlParse(decodeURIComponent(url))
-    const params = queryParse(urlObj.query)
-    const user = await api.getUserByCode(params.code)
+    //客户端传过来的url
+    let urlObj = urlParse(decodeURIComponent(ctx.query.url))
+    let user = await api.getUserByCode(queryParse(urlObj.query).code)
 
     console.log(user)
     ctx.session = {

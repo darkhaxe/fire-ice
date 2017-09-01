@@ -38,6 +38,31 @@ function sortStr(args) {
     return str.substr(1)
 }
 
+
+/**
+ * 生成随机字符串
+ * @returns {string}
+ */
+function _createNonce() {
+    return Math.random().toString(36).substr(2, 15)
+}
+
+function _createTimestamp() {
+    return parseInt(new Date().getTime() / 1000, 0) + ''
+}
+
+function sign(ticket, url) {
+    const nonce = _createNonce()
+    const timestamp = _createTimestamp()
+    const signature = _signIt(nonce, ticket, timestamp, url)
+
+    return {
+        noncestr: nonce,
+        timestamp: timestamp,
+        signature: signature
+    }
+}
+
 /**
  * sha1加密
  * @param nonce
@@ -46,7 +71,7 @@ function sortStr(args) {
  * @param url
  * @returns {*}
  */
-function signIt(nonce, ticket, timestamp, url) {
+function _signIt(nonce, ticket, timestamp, url) {
     const ret = { //字典排序
         jsapi_ticket: ticket,
         nonceStr: nonce,
@@ -57,29 +82,6 @@ function signIt(nonce, ticket, timestamp, url) {
     return sha1(sortStr(ret))
 }
 
-/**
- * 生成随机字符串
- * @returns {string}
- */
-function createNonce() {
-    return Math.random().toString(36).substr(2, 15)
-}
-
-function createTimestamp() {
-    return parseInt(new Date().getTime() / 1000, 0) + ''
-}
-
-function sign(ticket, url) {
-    const nonce = createNonce()
-    const timestamp = createTimestamp()
-    const signature = signIt(nonce, ticket, timestamp, url)
-
-    return {
-        noncestr: nonce,
-        timestamp: timestamp,
-        signature: signature
-    }
-}
 
 
 function formatMessage(result) {
