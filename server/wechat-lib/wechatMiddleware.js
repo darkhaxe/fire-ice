@@ -12,7 +12,7 @@ import * as util from './util'
  */
 export default function (opts, reply) {
     return async function wechatMiddleware(ctx, next) {
-        const token = config.wechat.token
+        const token = config.core.token
         //获取所有参数
         const {signature, nonce, timestamp, echostr}
             = ctx.query //微信传入的变量

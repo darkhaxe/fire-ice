@@ -4,7 +4,7 @@
 import request from 'request-promise'
 import fs from 'fs'
 import * as _ from 'lodash'
-import {sign} from './util'
+import * as util from './util'
 
 const base = 'https://api.weixin.qq.com/cgi-bin'
 const api = { //存放微信各类接口
@@ -61,6 +61,7 @@ export default class WechatApi {
         this.opts = Object.assign({}, opts)
         this.appID = opts.appID
         this.appSecret = opts.appSecret
+        //方法
         this.getAccessToken = opts.getAccessToken
         this.saveAccessToken = opts.saveAccessToken
         this.getTicket = opts.getTicket
@@ -71,7 +72,7 @@ export default class WechatApi {
     /**
      *统一请求wechat
      */
-    async requestWeChat(opts) {
+    async requestWechat(opts) {
         opts = Object.assign({}, opts, {json: true})
         try {
             return await request(opts)
@@ -89,7 +90,17 @@ export default class WechatApi {
     async handle(operation, ...args) {
         const tokenData = await this.fetchAccessToken()
         const options = this[operation](tokenData.access_token, ...args)
-        return await this.requestWeChat(options)
+        return await this.requestWechat(options)
+    }
+
+    /**
+     * 生成sha1签名
+     * @param ticket
+     * @param url
+     * @returns {{noncestr, timestamp, signature}|*}
+     */
+    sign(ticket, url) {
+        return util.sign(ticket, url)
     }
 
     /**
@@ -122,7 +133,7 @@ export default class WechatApi {
 
     async updateAccessToken() {
         const url = api.accessToken + '&appid=' + this.appID + '&secret=' + this.appSecret
-        let data = await this.requestWeChat({url: url})
+        let data = await this.requestWechat({url: url})
         //20s缓冲时间
         data.expires_in = new Date().getTime() + (data.expires_in - 20) * 1000
         return data
@@ -130,14 +141,10 @@ export default class WechatApi {
 
     async updateTicket(token) {
         const url = api.ticket.get + '&access_token=' + token + '&type=jsapi'
-        let data = await this.requestWeChat({url: url})
+        let data = await this.requestWechat({url: url})
         //20s缓冲时间
         data.expires_in = new Date().getTime() + (data.expires_in - 20) * 1000
         return data
-    }
-
-    sign(ticket, url) {
-        return this.sign(ticket, url)
     }
 
 
@@ -348,7 +355,5 @@ export default class WechatApi {
         return {url: url}
     }
 
-    sign(ticket, url) {
-        return sign(ticket, url)
-    }
+
 }
