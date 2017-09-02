@@ -21,6 +21,7 @@
     "koa-router": "^7.2.1",
     "lodash": "^4.17.4",
     "mongoose": "^4.11.8",
+    "node-sass": "^4.5.3",
     "nuxt": "1.0.0-alpha1",
     "path": "^0.12.7",
     "pug": "^2.0.0-rc.3",
@@ -30,6 +31,7 @@
     "sass-loader": "^6.0.6",
     "sha1": "^1.1.1",
     "source-map-support": "^0.4.15",
+    "vuex": "^2.4.0",
     "xml2js": "^0.4.19"
   },
   "devDependencies": {

@@ -1,12 +1,13 @@
 import Services from './services'
-import axios from 'axios'
 
 export default {
+    getWechatSignature({commit}, url) {
+        return Services.getWechatSignature(url)
+    },
 
     async fetchHouses({state}) {
         const res = await Services.fetchHouses()
         state.houses = res.data.data
-
         return res
     },
 
