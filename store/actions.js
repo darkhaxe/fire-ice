@@ -5,6 +5,10 @@ export default {
         return Services.getWechatSignature(url)
     },
 
+    getUserByOAuth({commit}, url) {
+        return Services.getUserByOAuth(url)
+    },
+
     async fetchHouses({state}) {
         const res = await Services.fetchHouses()
         state.houses = res.data.data

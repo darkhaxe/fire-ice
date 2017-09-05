@@ -13,6 +13,8 @@
     </section>
 </template>
 <script>
+    import {mapState} from 'vuex'
+
     export default {
         asyncData({req}) {
             return {
@@ -21,8 +23,20 @@
         },
         head() {
             return {
-                title: `About Page (${this.name}-side)`
+                title: `test page`
             }
+        },
+        computed: {
+            ...mapState(['baseUrl'])
+        },
+        beforeMount() {
+            let url = window.location.href
+            this.$store.dispatch('getUserByOAuth', encodeURIComponent(url))
+                .then(res => {
+                    if (res.data.success) {
+                        console.log(res.data)
+                    }
+                })
         }
     }
 </script>
