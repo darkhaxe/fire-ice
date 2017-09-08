@@ -7,13 +7,13 @@
                     .cname {{ item.name }}
                     .name {{ item.cname }}
                 .house-img-wrapper
-                    img(:src=" item.cname")
+                    img(:src="item.profile")
 
         .povCharacters
             .title 主要人物
             .povCharacter-wrapper
                 .povCharacter-content(v-for='(item, index) in characters' :key='index' @click='focusCharacters(item)')
-                    img(:src="item.profile + '?imageView2/1/w/280/h/440/format/jpg/q/75|imageslim'")
+                    img(:src="item.profile")
                     .povCharacter-text
                         .cname {{ item.cname }}
                         .name {{ item.name }}
@@ -47,10 +47,13 @@
             this.$store.dispatch('fetchHouses')
             this.$store.dispatch('fetchCharacters')
             this.$store.dispatch('fetchCities')
+            console.log('houses-->' + this.houses)
+            console.log('characters-->' + this.characters)
+            console.log('cities-->' + this.cities)
         }
 
         , methods: {
-            showHouse(item) {
+            focusHouse(item) {
                 this.$router.push({
                     path: '/house',
                     query: {
@@ -58,7 +61,7 @@
                     }
                 })
             },
-            showCharacter(item) {
+            focusCharacters(item) {
                 this.$router.push({
                     path: '/character',
                     query: {
@@ -66,6 +69,7 @@
                     }
                 })
             }
+
         }
     }
 

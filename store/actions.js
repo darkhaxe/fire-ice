@@ -19,7 +19,7 @@ export default {
     async fetchCharacters({state}) {
         const res = await Services.fetchCharacters()
         state.characters = res.data.data
-        // console.log(state.characters)
+        console.log(state.characters)
         return state.characters
     },
 
