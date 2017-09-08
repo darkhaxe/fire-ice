@@ -23,7 +23,7 @@
         },
         head() {
             return {
-                title: `test page`
+                title: `test page 170907`
             }
         },
         computed: {

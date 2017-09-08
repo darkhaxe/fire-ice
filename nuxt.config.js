@@ -19,7 +19,12 @@ module.exports = {
     /*
     ** Global CSS
     */
-    css: ['~static/css/main.css'],
+    css: [
+        { //sass目录
+            src: 'static/sass/base.sass',
+            lang: 'sass?indentedSyntax=true'
+        }
+    ],
     /*
     ** Customize the progress-bar color
     */
