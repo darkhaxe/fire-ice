@@ -28,7 +28,7 @@
         },
         //装载前
         beforeMount() {
-            console.log('beforeAmount')
+//            console.log('beforeAmount')
             let wx = window.wx
             let url = 'wechat-signature'//window.location.href
             //1.触发store状态变更

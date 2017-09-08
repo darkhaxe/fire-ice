@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const baseUrl = ''
-const apiUrl = 'http://rapapi.org/mockjsdata/25102'
+const apiUrl = 'http://rapapi.org/mockjsdata/25102' //rap模拟数据
 
 class Services {
     getWechatSignature(url) {
@@ -12,15 +12,15 @@ class Services {
         return axios.get(`${baseUrl}/wechat-oauth?url=${url}`)
     }
 
-    fetchHouses() {
+    async fetchHouses() {
         return axios.get(`${apiUrl}/wiki/houses`)
     }
 
-    fetchCharacters() {
+    async fetchCharacters() {
         return axios.get(`${apiUrl}/wiki/characters`)
     }
 
-    fetchCities() {
+    async fetchCities() {
         return axios.get(`${apiUrl}/wiki/cities`)
     }
 
