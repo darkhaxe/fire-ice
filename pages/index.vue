@@ -47,9 +47,6 @@
             this.$store.dispatch('fetchHouses')
             this.$store.dispatch('fetchCharacters')
             this.$store.dispatch('fetchCities')
-            console.log('houses-->' + this.houses)
-            console.log('characters-->' + this.characters)
-            console.log('cities-->' + this.cities)
         }
 
         , methods: {
