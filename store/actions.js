@@ -11,7 +11,7 @@ export default {
 
     async fetchHouses({state}) {
         const res = await Services.fetchHouses()
-        state.houses = res.data[0].data //todo 奇怪的数据结构
+        state.houses = res.data.data
         // console.log(res.data[0].data)
         return res
     },
@@ -33,7 +33,7 @@ export default {
     async focusHouse({state}, _id) {
         if (_id === state.currentHouse._id) return
         const res = await Services.fetchHouse(_id)
-        state.currentHouse = res.data[0].data
+        state.currentHouse = res.data.data
         return state.currentHouse
     },
     async focusCharacter({state}, _id) {
@@ -41,8 +41,20 @@ export default {
         let res = await Services.fetchCharacter(_id)
         console.log(res)
         state.currentCharacter = res.data.data
-        console.log(state.currentCharacter)
+        // console.log(state.currentCharacter)
         return state.currentCharacter
+    },
+    async fetchProducts({state}) {
+        let res = await Services.fetchProducts()
+        state.products = res.data.data
+        return res
+    },
+    async focusProduct({state}, _id) {
+        if (_id === state.currentProduct._id) return
+        let res = await Services.fetchProduct(_id)
+        // console.log(res)
+        state.currentProduct = res.data.data
+        return res
     }
 
 
