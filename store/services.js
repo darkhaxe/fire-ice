@@ -12,16 +12,24 @@ class Services {
         return axios.get(`${baseUrl}/wechat-oauth?url=${url}`)
     }
 
-    async fetchHouses() {
+    fetchHouses() {
         return axios.get(`${apiUrl}/wiki/houses`)
     }
 
-    async fetchCharacters() {
+    fetchCharacters() {
         return axios.get(`${apiUrl}/wiki/characters`)
     }
 
-    async fetchCities() {
+    fetchCities() {
         return axios.get(`${apiUrl}/wiki/cities`)
+    }
+
+    fetchHouse(id) {
+        return axios.get(`${apiUrl}/wiki/houses/${id}`)
+    }
+
+    fetchCharacter(id) {
+        return axios.get(`${apiUrl}/wiki/characters/${id}`)
     }
 
 }

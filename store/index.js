@@ -9,6 +9,9 @@ const createStore = () => {
             houses: [],
             cities: [],
             characters: [],
+            currentHouse: {},
+            currentCharacter: {},
+
         },
         getters, actions, mutations
     })

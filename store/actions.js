@@ -13,22 +13,37 @@ export default {
         const res = await Services.fetchHouses()
         state.houses = res.data[0].data //todo 奇怪的数据结构
         // console.log(res.data[0].data)
-        return state.houses
+        return res
     },
 
     async fetchCharacters({state}) {
         const res = await Services.fetchCharacters()
         state.characters = res.data.data
         // console.log(state.characters)
-        return state.characters
+        return res
     },
 
     async fetchCities({state}) {
         const res = await Services.fetchCities()
         state.cities = res.data.data
         // console.log(state.cities)
-        return state.cities
+        return res
     },
+
+    async focusHouse({state}, _id) {
+        if (_id === state.currentHouse._id) return
+        const res = await Services.fetchHouse(_id)
+        state.currentHouse = res.data[0].data
+        return state.currentHouse
+    },
+    async focusCharacter({state}, _id) {
+        if (_id === state.currentCharacter._id) return
+        let res = await Services.fetchCharacter(_id)
+        console.log(res)
+        state.currentCharacter = res.data.data
+        console.log(state.currentCharacter)
+        return state.currentCharacter
+    }
 
 
 }

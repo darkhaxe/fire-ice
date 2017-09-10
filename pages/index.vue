@@ -13,7 +13,7 @@
             .title 主要人物
             .povCharacter-wrapper
                 .povCharacter-content(v-for='(item, index) in characters' :key='index' @click='focusCharacters(item)')
-                    img(:src="item.profile")
+                    img(:src="item.images")
                     .povCharacter-text
                         .cname {{ item.cname }}
                         .name {{ item.name }}
@@ -47,9 +47,9 @@
             this.$store.dispatch('fetchHouses')
             this.$store.dispatch('fetchCharacters')
             this.$store.dispatch('fetchCities')
-        }
+        },
 
-        , methods: {
+        methods: {
             focusHouse(item) {
                 this.$router.push({
                     path: '/house',
@@ -71,5 +71,4 @@
     }
 
 </script>
-
 <style scoped lang="sass" src='~static/sass/index.sass'></style>

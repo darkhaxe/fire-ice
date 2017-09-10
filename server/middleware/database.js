@@ -8,6 +8,10 @@ fs.readdirSync(models_path) //同步读模型文件
     .filter(file => ~file.search(/^.*js$/)) //后缀js文件
     .forEach(file => require(resolve(models_path, file)))
 
+//爬取清洗的数据,入库
+
+
+
 export const database = app => {
     mongoose.set('debug', true)
     mongoose.connect(config.db)
