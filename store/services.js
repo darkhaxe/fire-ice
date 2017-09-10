@@ -13,6 +13,7 @@ class Services {
         return axios.get(`${baseUrl}/wechat-oauth?url=${url}`)
     }
 
+
     fetchHouses() {
         return axios.get(`${apiUrl}/wiki/houses`)
     }
@@ -39,6 +40,10 @@ class Services {
 
     fetchProduct(id) {
         return axios.get(`${apiUrl}/wiki/products/${id}`)
+    }
+
+    fetchUserAndOrders() {
+        return axios.get(`${apiUrl}/api/user`)
     }
 
 }

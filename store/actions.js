@@ -55,7 +55,11 @@ export default {
         // console.log(res)
         state.currentProduct = res.data.data
         return res
-    }
-
+    },
+    async fetchUserAndOrders({state}) {
+        const res = await Services.fetchUserAndOrders()
+        state.authUser = res.data.data
+        return res
+    },
 
 }

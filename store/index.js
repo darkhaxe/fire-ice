@@ -13,6 +13,7 @@ const createStore = () => {
             currentHouse: {},
             currentCharacter: {},
             currentProduct: {},
+            authUser: {},//5-9
 
         },
         getters, actions, mutations
