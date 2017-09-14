@@ -17,7 +17,7 @@ export class WikiController {
 
         let character = await WikiCharacter.findById(_id).exec()
 
-        ctx.body = character
+        ctx.body = {data: character, success: true}
     }
 
     @put('/characters/:_id')
@@ -38,7 +38,7 @@ export class WikiController {
 
         character = await character.save()
 
-        return ctx.body = character
+        return ctx.body = {data: character, success: true}
 
     }
 
@@ -51,7 +51,10 @@ export class WikiController {
             .limit(Number(limit))
             .exec()
 
-        ctx.body = characters
+        ctx.body = {
+            data: characters,
+            success: true
+        }
     }
 
     @get('/houses/:_id')
@@ -70,7 +73,7 @@ export class WikiController {
             })
             .exec()
 
-        ctx.body = house
+        ctx.body = {data: house, success: true}
     }
 
     @put('houses/:_id')
@@ -90,7 +93,7 @@ export class WikiController {
 
         house = await house.save()
 
-        return ctx.body = house
+        return ctx.body = {data: house, success: true}
     }
 
     @get('/houses')
@@ -104,6 +107,6 @@ export class WikiController {
             })
             .exec()
 
-        ctx.body = houses
+        ctx.body = {data: houses, success: true}
     }
 }

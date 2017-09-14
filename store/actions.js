@@ -12,14 +12,14 @@ export default {
     async fetchHouses({state}) {
         const res = await Services.fetchHouses()
         state.houses = res.data.data
-        // console.log(res.data[0].data)
+        console.log(res.data[0].data)
         return res
     },
 
     async fetchCharacters({state}) {
         const res = await Services.fetchCharacters()
         state.characters = res.data.data
-        // console.log(state.characters)
+        console.log(state.characters)
         return res
     },
 
@@ -34,6 +34,7 @@ export default {
         if (_id === state.currentHouse._id) return
         const res = await Services.fetchHouse(_id)
         state.currentHouse = res.data.data
+        console.log(state.currentHouse)
         return state.currentHouse
     },
     async focusCharacter({state}, _id) {

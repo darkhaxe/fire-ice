@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const baseUrl = ''//本地路径
-const localhost = '127.0.0.1'
+const localhost = 'http://127.0.0.1:3000'
 const apiUrl = 'http://rapapi.org/mockjsdata/21639' //rap模拟数据
 // const apiUrl = 'http://rapapi.org/mockjsdata/25102' //rap模拟数据
 
