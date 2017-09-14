@@ -1,6 +1,7 @@
 import axios from 'axios'
 
 const baseUrl = ''//本地路径
+const localhost = '127.0.0.1'
 const apiUrl = 'http://rapapi.org/mockjsdata/21639' //rap模拟数据
 // const apiUrl = 'http://rapapi.org/mockjsdata/25102' //rap模拟数据
 
@@ -13,15 +14,12 @@ class Services {
         return axios.get(`${baseUrl}/wechat-oauth?url=${url}`)
     }
 
-≤
-
-
     fetchHouses() {
-        return axios.get(`${apiUrl}/wiki/houses`)
+        return axios.get(`${localhost}/wiki/houses`)
     }
 
     fetchCharacters() {
-        return axios.get(`${apiUrl}/wiki/characters`)
+        return axios.get(`${localhost}/wiki/characters`)
     }
 
     fetchCities() {
@@ -29,11 +27,11 @@ class Services {
     }
 
     fetchHouse(id) {
-        return axios.get(`${apiUrl}/wiki/houses/${id}`)
+        return axios.get(`${localhost}/wiki/houses/${id}`)
     }
 
     fetchCharacter(id) {
-        return axios.get(`${apiUrl}/wiki/characters/${id}`)
+        return axios.get(`${localhost}/wiki/characters/${id}`)
     }
 
     fetchProducts() {
