@@ -71,7 +71,7 @@
         },
         computed: {
             ...mapState({
-//      imageCDN: 'imageCDN',
+//    imageCDN: 'imageCDN',
                 product: 'currentProduct'
             })
         },

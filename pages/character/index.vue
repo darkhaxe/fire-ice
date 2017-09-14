@@ -31,7 +31,7 @@
     export default {
 //  middleware: 'wechat-auth',
 //  transition: {
-//    name: 'slide-left'
+//  name: 'slide-left'
 //  },
         head() {
             return {
@@ -40,7 +40,7 @@
         },
         computed: {
             ...mapState({
-//      imageCDN: 'imageCDN',
+//    imageCDN: 'imageCDN',
                 character: 'currentCharacter'
             })
         },

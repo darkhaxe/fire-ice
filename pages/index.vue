@@ -40,10 +40,10 @@
         computed: {
             ...mapState([
                 'houses', 'characters', 'cities'
-            ]),
+            ])
         }
         ,
-        beforeCreate() { //创建之前获取数据
+        beforeCreate() { // 创建之前获取数据
             this.$store.dispatch('fetchHouses')
             this.$store.dispatch('fetchCharacters')
             this.$store.dispatch('fetchCities')

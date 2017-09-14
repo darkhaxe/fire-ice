@@ -29,7 +29,7 @@
     export default {
 //  middleware: 'wechat-auth',
 //  transition: {
-//    name: 'slide-left'
+//  name: 'slide-left'
 //  },
         head() {
             return {
@@ -38,17 +38,16 @@
         },
         computed: {
             ...mapState({
-//      imageCDN: 'imageCDN',
-                house: 'currentHouse' //state.currentHouse
+//    imageCDN: 'imageCDN',
+                house: 'currentHouse' // state.currentHouse
             })
         },
         beforeCreate() {
             let id = this.$route.query.id
-            //调用actions.js的focusHouse()
+            // 调用actions.js的focusHouse()
             this.$store.dispatch('focusHouse', id)
         }
     }
 </script>
 
 <style scoped lang="sass" src='~static/sass/house.sass'></style>
-

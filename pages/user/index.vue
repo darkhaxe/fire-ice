@@ -38,14 +38,14 @@
         computed: {
             ...mapState([
                 'authUser',
-//      'imageCDN',
-//                'payments'
+//    'imageCDN',
+//        'payments'
             ])
         },
         methods: {},
         beforeCreate() {
             this.$store.dispatch('fetchUserAndOrders')
-//            this.$store.dispatch('fetchPayments')
+//      this.$store.dispatch('fetchPayments')
         },
         components: {
             cell

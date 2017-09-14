@@ -13,7 +13,7 @@
     </section>
 </template>
 <script>
-    import {mapState} from 'vuex'
+    //  import {mapState} from 'vuex'
 
     export default {
         asyncData({req}) {
@@ -26,23 +26,23 @@
                 title: `测试页面`
             }
         },
-        //装载前
+        // 装载前
         beforeMount() {
-//            console.log('beforeAmount')
+//      console.log('beforeAmount')
             let wx = window.wx
-            let url = 'wechat-signature'//window.location.href
-            //1.触发store状态变更
-            //2.services.js的getWechatSignature(),发出axios请求
-            //3./server/router.js截获->交由/controllers/wechat.js处理
-            //4.后端返回,进入res=>{}回调函数
+            let url = 'wechat-signature'// window.location.href
+            // 1.触发store状态变更
+            // 2.services.js的getWechatSignature(),发出axios请求
+            // 3./server/router.js截获->交由/controllers/wechat.js处理
+            // 4.后端返回,进入res=>{}回调函数
             this.$store.dispatch('getWechatSignature', url)
                 .then(res => {
                     if (res.data.success) {
                         let params = res.data.params
-                        //注入参数,wechatJS进行权限验证
+                        // 注入参数,wechatJS进行权限验证
                         wx.config({
                             debug: true,
-                            appId: params.appID, //公众号唯一标识
+                            appId: params.appID, // 公众号唯一标识
                             timestamp: params.timestamp,
                             noncestr: params.noncestr,
                             signature: params.signature,

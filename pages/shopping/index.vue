@@ -16,7 +16,7 @@
     import {mapState} from 'vuex'
 
     export default {
-//        middleware: 'wechat-auth',
+//    middleware: 'wechat-auth',
         head() {
             return {
                 title: '周边手办'
@@ -24,9 +24,9 @@
         },
         computed: {
             ...mapState([
-//                'imageCDN',
+//        'imageCDN',
                 'products',
-//                'shoppingScroll'
+//        'shoppingScroll'
             ])
         },
         methods: {
@@ -43,7 +43,7 @@
             setTimeout(() => {
                 this.$el.scrollTop = this.shoppingScroll
             }, 50)
-        },
+    }
     }
 </script>
 
