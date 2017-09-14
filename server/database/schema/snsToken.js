@@ -23,8 +23,7 @@ var SnsTokenSchema = new mongoose.Schema({
 SnsTokenSchema.pre('save', function (next) {
     if (this.isNew) {
         this.meta.createAt = this.meta.updateAt = Date.now()
-    }
-    else {
+    } else {
         this.meta.updateAt = Date.now()
     }
 

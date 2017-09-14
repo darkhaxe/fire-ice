@@ -13,24 +13,24 @@ module.exports = {
         ],
         script: [
             {src: 'https://res.wx.qq.com/open/js/jweixin-1.2.0.js'},
-            {src: 'http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js'}//根据设备动态适配比例}
+            {src: 'http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js'}// 根据设备动态适配比例}
         ]
     },
     /*
     ** Global CSS
     */
     css: [
-        { //sass目录
+        { // sass目录
             src: 'static/sass/base.sass',
             lang: 'sass?indentedSyntax=true'
         },
-        {//轮播图的css
+        {// 轮播图的css
             src: 'swiper/dist/css/swiper.css'
         }
     ],
 
     plugins: [
-        {src: '~plugins/swiper.js', ssr: false},//轮播图,vue-awesome-swiper
+        {src: '~plugins/swiper.js', ssr: false}// 轮播图,vue-awesome-swiper
     ],
     /*
     ** Customize the progress-bar color

@@ -60,6 +60,6 @@ export default {
         const res = await Services.fetchUserAndOrders()
         state.authUser = res.data.data
         return res
-    },
+    }
 
 }

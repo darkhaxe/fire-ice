@@ -4,13 +4,13 @@ const wechatApi = getWechat()
 const oauth = getOAuth()
 
 export async function getSignatureAsync(url) {
-    //获取access_token
+    // 获取access_token
     const data = await wechatApi.fetchAccessToken()
     const token = data.access_token
-    //获取ticket
+    // 获取ticket
     const ticketData = await wechatApi.fetchTicket(token)
     const ticket = ticketData.ticket
-    //加密
+    // 加密
     let params = wechatApi.sign(ticket, url)
     params.appId = wechatApi.appID
 

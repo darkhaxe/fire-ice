@@ -38,7 +38,6 @@ function sortStr(args) {
     return str.substr(1)
 }
 
-
 /**
  * 生成随机字符串
  * @returns {string}
@@ -72,7 +71,7 @@ function sign(ticket, url) {
  * @returns {*}
  */
 function _signIt(nonce, ticket, timestamp, url) {
-    const ret = { //字典排序
+    const ret = { // 字典排序
         jsapi_ticket: ticket,
         nonceStr: nonce,
         timestamp: timestamp,
@@ -81,8 +80,6 @@ function _signIt(nonce, ticket, timestamp, url) {
 
     return sha1(sortStr(ret))
 }
-
-
 
 function formatMessage(result) {
     let message = {}

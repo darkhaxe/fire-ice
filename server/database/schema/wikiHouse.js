@@ -9,7 +9,7 @@ const HouseSchema = new Schema({
     intro: String,
     cover: String,
     wikiId: Number,
-    sections: Mixed, //混合数组
+    sections: Mixed, // 混合数组
     swornMembers: [
         {
             character: {type: String, ref: 'WikiCharacter'},

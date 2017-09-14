@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const baseUrl = ''
+const baseUrl = ''//本地路径
 const apiUrl = 'http://rapapi.org/mockjsdata/21639' //rap模拟数据
 // const apiUrl = 'http://rapapi.org/mockjsdata/25102' //rap模拟数据
 
@@ -12,6 +12,8 @@ class Services {
     getUserByOAuth(url) {
         return axios.get(`${baseUrl}/wechat-oauth?url=${url}`)
     }
+
+≤
 
 
     fetchHouses() {

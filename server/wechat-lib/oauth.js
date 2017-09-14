@@ -43,10 +43,8 @@ export default class WechatOAuth {
         return await this.requestWechat({url: url})
     }
 
-
     async getUserInfo(token, openId, lang = 'zh_CN') {
         const url = `${api.user.info}access_token=${token}&openid=${openId}&lang=${lang}`
         return await this.requestWechat(url)
     }
-
 }

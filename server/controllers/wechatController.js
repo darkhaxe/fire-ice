@@ -32,7 +32,7 @@ export async function redirect(ctx, next) {
 }
 
 export async function oauth(ctx, next) {
-    //客户端传过来的url
+    // 客户端传过来的url
     let urlObj = urlParse(decodeURIComponent(ctx.query.url))
     let user = await api.getUserByCode(queryParse(urlObj.query).code)
 

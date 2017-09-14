@@ -1,5 +1,5 @@
 import ejs from 'ejs'
-//ejs语法处理
+// ejs语法处理
 const tpl = `
   <xml>
     <ToUserName><![CDATA[<%= toUserName %>]]></ToUserName>

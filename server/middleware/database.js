@@ -4,9 +4,9 @@ import fs from 'fs'
 import {resolve} from 'path'
 import _ from 'lodash'
 
-const models_path = resolve(__dirname, '../database/schema') //读取schema定义
-fs.readdirSync(models_path) //同步读模型文件
-    .filter(file => ~file.search(/^.*js$/)) //后缀js文件
+const models_path = resolve(__dirname, '../database/schema') // 读取schema定义
+fs.readdirSync(models_path) // 同步读模型文件
+    .filter(file => ~file.search(/^.*js$/)) // 后缀js文件
     .forEach(file => require(resolve(models_path, file)))
 
 let characters = require('../database/json/allCharacters.json')
@@ -20,7 +20,7 @@ export const database = app => {
     mongoose.set('debug', true)
     mongoose.connect(config.db)
 
-    mongoose.connection.once('open', async () => { //只执行一次
+    mongoose.connection.once('open', async () => { // 只执行一次
         console.log('connected to MongoDb')
 
         const Character = mongoose.model('Character')
@@ -43,7 +43,6 @@ export const database = app => {
 
         let existwikiHouses = await WikiHouse.find({}).exec()
         if (!existwikiHouses.length) WikiHouse.insertMany(wikiHouses)
-
     })
 
     mongoose.connection.on('disconnect', () => {
@@ -53,7 +52,6 @@ export const database = app => {
     mongoose.connection.on('error', err => {
         console.log(err)
     })
-
 }
 
 const formatData = (item, index) => {

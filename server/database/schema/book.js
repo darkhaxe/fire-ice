@@ -1,7 +1,6 @@
 const mongoose = require('mongoose')
 const {Schema} = mongoose
 
-
 const BookSchema = new Schema({
     _id: String,
     url: String,

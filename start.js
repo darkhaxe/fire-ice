@@ -7,14 +7,14 @@ require('babel-core/register')({
         'latest-node'
     ],
     'plugins': [
-        // 'transform-decorators-legacy',
-        ['module-alias', [
+        'transform-decorators-legacy', // 支持修饰器 es7
+        ['module-alias', [// 暴露依赖的模块
             {'src': r('./server'), 'expose': '~'},
             {'src': r('./server/database'), 'expose': 'database'}
         ]]
     ]
 })
 
-//babel转换,与引入server下的真正启动文件
+// babel转换,与引入server下的真正启动文件
 require('babel-polyfill')
 require('./server')

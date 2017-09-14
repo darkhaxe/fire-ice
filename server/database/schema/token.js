@@ -1,13 +1,13 @@
 // Schema:存放全局票据
-//给mongoose查询绑定自定义方法,最后一行
+// 给mongoose查询绑定自定义方法,最后一行
 const mongoose = require('mongoose')
 
-//字段定义
+// 字段定义
 const TokenSchema = new mongoose.Schema(
     {
-        name: String, //token名
-        access_token: String, //token值
-        expires_in: Number, //过期时间
+        name: String, // token名
+        access_token: String, // token值
+        expires_in: Number, // 过期时间
         meta: {
             createdAt: {
                 type: Date,
@@ -21,22 +21,22 @@ const TokenSchema = new mongoose.Schema(
     }
 )
 
-//绑定TokenSchema到mongoose.model(),在服务启动之后全局可以使用mongoose.model('Token')获取自定义的方法
+// 绑定TokenSchema到mongoose.model(),在服务启动之后全局可以使用mongoose.model('Token')获取自定义的方法
 const TokenModel = mongoose.model('Token', TokenSchema)
 
-//存储前执行此回调函数
+// 存储前执行此回调函数
 TokenSchema.pre('save', function (next) {
     if (this.isNew) {
         this.meta.createdAt = this.meta.updatedAt = Date.now()
     } else {
         this.meta.updatedAt = Date.now()
     }
-    //回调,交出控制权
+    // 回调,交出控制权
     next()
 })
 
-//静态方法
-//方法间需要加上逗号
+// 静态方法
+// 方法间需要加上逗号
 TokenSchema.statics = {
     async getTicket() {
         return await this.findOne({name: 'access_token'}).exec()
@@ -53,7 +53,7 @@ TokenSchema.statics = {
             doc = new TokenModel({
                 name: 'access_token',
                 access_token: data.access_token,
-                expires_in: data.expires_in,
+                expires_in: data.expires_in
             })
         }
         try {

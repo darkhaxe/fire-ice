@@ -8,7 +8,7 @@ import Nuxt from 'nuxt'
 import R from 'ramda'
 
 let config = require('../nuxt.config.js')
-config.dev = !(process.env === 'production') //判断是否生产环境
+config.dev = !(process.env === 'production') // 判断是否生产环境
 
 const r = path => resolve(__dirname, path)
 const host = process.env.HOST || '127.0.0.1'
@@ -37,7 +37,7 @@ class Server {
 
     async start() {
         const nuxt = await new Nuxt(config)
-        //测试环境
+        // 测试环境
         if (conf.env !== 'production') {
             try {
                 await nuxt.build()
@@ -49,15 +49,13 @@ class Server {
 
         this.app.use(async (ctx, next) => {
             ctx.status = 200
-            //渲染html
+            // 渲染html
             await nuxt.render(ctx.req, ctx.res)
         })
         this.app.listen(port, host)
         console.log('--> Server listening on ' + host + ':' + port)
     }
-
 }
-
 
 const app = new Server()
 app.start()

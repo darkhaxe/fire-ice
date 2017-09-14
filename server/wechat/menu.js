@@ -1,4 +1,4 @@
-//菜单
+// 菜单
 export default {
     button: [
         {
@@ -31,8 +31,7 @@ export default {
                     'type': 'location_select',
                     'key': 'contact'
                 }]
-        },
-
+        }
 
     ]
 }

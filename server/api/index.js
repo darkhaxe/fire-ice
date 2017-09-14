@@ -1,9 +1,9 @@
-//统一收集需要暴露的api
+// 统一收集需要暴露的api
 import {
     getSignatureAsync,
     getAuthorizeURL,
     getUserByCode
-} from "./wechat"
+} from './wechat'
 
 export {
     getSignatureAsync,
@@ -11,4 +11,4 @@ export {
     getUserByCode
 }
 
-//todo 待删除
+// todo 待删除

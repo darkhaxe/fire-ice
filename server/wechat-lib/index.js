@@ -1,5 +1,5 @@
-//access_token 统一管理模块
-//统一获取和刷新Access_token，其他业务逻辑服务器所使用的access_token均来自于该中控服务器，
+// access_token 统一管理模块
+// 统一获取和刷新Access_token，其他业务逻辑服务器所使用的access_token均来自于该中控服务器，
 // 不应该各自去刷新，否则容易造成冲突，导致access_token覆盖而影响业务；
 import request from 'request-promise'
 import fs from 'fs'
@@ -7,13 +7,13 @@ import * as _ from 'lodash'
 import * as util from './util'
 
 const base = 'https://api.weixin.qq.com/cgi-bin'
-const api = { //存放微信各类接口
+const api = { // 存放微信各类接口
     accessToken: base + '/token?grant_type=client_credential&appid=APPID&secret=APPSECRET',
-    temporary: {//临时素材
+    temporary: {// 临时素材
         upload: base + 'media/upload?',
         fetch: base + 'media/get?'
     },
-    permanent: { //永久素材
+    permanent: { // 永久素材
         upload: base + 'material/add_material?',
         uploadNews: base + 'material/add_news?',
         uploadNewsPic: base + 'media/uploadimg?',
@@ -23,7 +23,7 @@ const api = { //存放微信各类接口
         count: base + 'material/get_materialcount?',
         batch: base + 'material/batchget_material?'
     },
-    tag: { //标签管理
+    tag: { // 标签管理
         create: base + 'tags/create?',
         fetch: base + 'tags/get?',
         update: base + 'tags/update?',
@@ -33,7 +33,7 @@ const api = { //存放微信各类接口
         batchUnTag: base + 'tags/members/batchuntagging?',
         getTagList: base + 'tags/getidlist?'
     },
-    user: { //用户管理
+    user: { // 用户管理
         remark: base + 'user/info/updateremark?',
         info: base + 'user/info?',
         batchInfo: base + 'user/info/batchget?',
@@ -61,12 +61,22 @@ export default class WechatApi {
         this.opts = Object.assign({}, opts)
         this.appID = opts.appID
         this.appSecret = opts.appSecret
-        //方法
+        // 方法
         this.getAccessToken = opts.getAccessToken
         this.saveAccessToken = opts.saveAccessToken
         this.getTicket = opts.getTicket
         this.saveTicket = opts.saveTicket
         this.fetchAccessToken()
+    }
+
+    /**
+     * 判断token是否有效
+     */
+    static _isValid(data, field) {
+        if (!data || !data[field] || !data.expires_in) {
+            return false
+        }
+        return data.expires_in > new Date().getTime()
     }
 
     /**
@@ -103,16 +113,6 @@ export default class WechatApi {
         return util.sign(ticket, url)
     }
 
-    /**
-     * 判断token是否有效
-     */
-    static _isValid(data, field) {
-        if (!data || !data[field] || !data.expires_in) {
-            return false
-        }
-        return data.expires_in > new Date().getTime()
-    }
-
     async fetchAccessToken() {
         let data = await this.getAccessToken
         if (this._isValid(data, 'token')) {
@@ -120,7 +120,6 @@ export default class WechatApi {
         }
         await this.saveAccessToken(data)
         return data
-
     }
 
     async fetchTicket() {
@@ -128,13 +127,12 @@ export default class WechatApi {
         if (this._isValid(data, 'ticket')) {
             return await this.updateTicket()
         }
-
     }
 
     async updateAccessToken() {
         const url = api.accessToken + '&appid=' + this.appID + '&secret=' + this.appSecret
         let data = await this.requestWechat({url: url})
-        //20s缓冲时间
+        // 20s缓冲时间
         data.expires_in = new Date().getTime() + (data.expires_in - 20) * 1000
         return data
     }
@@ -142,11 +140,10 @@ export default class WechatApi {
     async updateTicket(token) {
         const url = api.ticket.get + '&access_token=' + token + '&type=jsapi'
         let data = await this.requestWechat({url: url})
-        //20s缓冲时间
+        // 20s缓冲时间
         data.expires_in = new Date().getTime() + (data.expires_in - 20) * 1000
         return data
     }
-
 
     /**
      * 封装上传素材
@@ -157,8 +154,8 @@ export default class WechatApi {
      * @returns {{method: string, url: string, json: boolean}}
      */
     uploadMaterial(token, type, material, permanent) {
-        let form = {} //构建表单
-        let url = api.temporary.upload //上传地址
+        let form = {} // 构建表单
+        let url = api.temporary.upload // 上传地址
 
         if (permanent) {
             url = api.permanent.upload
@@ -170,15 +167,15 @@ export default class WechatApi {
             url = api.permanent.uploadNewsPic
         }
 
-        if (type === 'news') { //图文
+        if (type === 'news') { // 图文
             url = api.permanent.uploadNews
             form = material
-        } else { //图片或视频
+        } else { // 图片或视频
             form.media = fs.createReadStream(material)
         }
 
         let uploadUrl = url + 'access_token=' + token
-        //----------------------拼接url区分-------------------------
+        // ----------------------拼接url区分-------------------------
         if (!permanent) {
             uploadUrl += '&type=' + type
         } else {
@@ -186,7 +183,7 @@ export default class WechatApi {
                 form.access_token = token
             }
         }
-        //-----------------------------------------------
+        // -----------------------------------------------
 
         const options = {
             method: 'POST',
@@ -196,7 +193,7 @@ export default class WechatApi {
 
         if (type === 'news') {
             options.body = form
-        } else { //图片上传的表单域
+        } else { // 图片上传的表单域
             options.formData = form
         }
 
@@ -208,7 +205,7 @@ export default class WechatApi {
             media_id: mediaId
         }
         const url = api.permanent.del + 'access_token=' + token + '&media_id' + mediaId
-        //发送请求的配置项
+        // 发送请求的配置项
         return {method: 'POST', url: url, body: form}
     }
 
@@ -354,6 +351,4 @@ export default class WechatApi {
 
         return {url: url}
     }
-
-
 }

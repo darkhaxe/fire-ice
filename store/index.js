@@ -13,10 +13,12 @@ const createStore = () => {
             currentHouse: {},
             currentCharacter: {},
             currentProduct: {},
-            authUser: {},//5-9
+            authUser: {}// 5-9
 
         },
-        getters, actions, mutations
+        getters,
+        actions,
+        mutations
     })
 }
 
