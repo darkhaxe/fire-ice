@@ -12,35 +12,35 @@ export default {
     async fetchHouses({state}) {
         const res = await Services.fetchHouses()
         state.houses = res.data.data
-        console.log(res.data[0].data)
+        // console.log(res.data[0].data)
         return res
     },
 
     async fetchCharacters({state}) {
         const res = await Services.fetchCharacters()
         state.characters = res.data.data
-        console.log(state.characters)
+        // console.log(state.characters)
         return res
     },
-
-    async fetchCities({state}) {
-        const res = await Services.fetchCities()
-        state.cities = res.data.data
-        // console.log(state.cities)
-        return res
-    },
+//改为mock数据
+    // async fetchCities({state}) {
+    //     const res = await Services.fetchCities()
+    //     state.cities = res.data.data
+    //     // console.log(state.cities)
+    //     return res
+    // },
 
     async focusHouse({state}, _id) {
         if (_id === state.currentHouse._id) return
         const res = await Services.fetchHouse(_id)
         state.currentHouse = res.data.data
-        console.log(state.currentHouse)
+        // console.log(state.currentHouse)
         return state.currentHouse
     },
     async focusCharacter({state}, _id) {
         if (_id === state.currentCharacter._id) return
         let res = await Services.fetchCharacter(_id)
-        console.log(res)
+        // console.log(res)
         state.currentCharacter = res.data.data
         // console.log(state.currentCharacter)
         return state.currentCharacter

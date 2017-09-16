@@ -7,16 +7,15 @@
 import {resolve} from 'path'
 import {Route} from '../decorator/router' // 自己封装的Router中间件
 
-const r = path => resolve(__dirname, path)
-// server/index.js 引入此router
+// server/index.js 中调用此中间件
 /**
  *
  * @param app 即koa
  */
 export const router = app => {
-    const apiPath = r('../routes')
-    console.log(`apiPath=${apiPath}`)
-    new Route(app, apiPath).init() // 构造路由并启动
+    let controllerPath = resolve(__dirname, '../routes') //加载routes文件夹下所有controller
+    console.log(`/server/middleware/router.js-->controllerPath=${controllerPath}`)
+    new Route(app, controllerPath).init() // 构造路由并启动
 
     // -----------------------------改造前----------------------------------------
 // 路由中间件:处理get,post请求

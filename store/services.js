@@ -22,9 +22,9 @@ class Services {
         return axios.get(`${localhost}/wiki/characters`)
     }
 
-    fetchCities() {
-        return axios.get(`${apiUrl}/wiki/cities`)
-    }
+    // fetchCities() {
+    //     return axios.get(`${apiUrl}/wiki/cities`)
+    // }
 
     fetchHouse(id) {
         return axios.get(`${localhost}/wiki/houses/${id}`)

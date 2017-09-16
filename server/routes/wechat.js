@@ -14,13 +14,6 @@ export class WxController {
         await middle(ctx, next)
     }
 
-    @post('/wechat-hear')
-    @log
-    async wxHear(ctx, next) {
-        const middle = wechatMiddle(config.core, reply)
-        await middle(ctx, next)
-    }
-
     @get('/wechat-signature')
     async wxSignature(ctx, next) {
         await wechat.signature(ctx, next)

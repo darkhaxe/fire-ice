@@ -30,6 +30,7 @@
 
     export default {
 //  middleware: 'wechat-auth',
+
         head() {
             return {
                 title: '个人中心'

@@ -30,8 +30,14 @@
 
 <script>
     import {mapState} from 'vuex'
+    import city from '../server/database/json/city.json'
 
     export default {
+        data() {
+            return {
+                cities: city //mock数据
+            }
+        },
         head() {
             return {
                 title: '冰火脸谱'
@@ -39,14 +45,14 @@
         },
         computed: {
             ...mapState([
-                'houses', 'characters', 'cities'
+                'houses', 'characters'
             ])
         }
         ,
         beforeCreate() { // 创建之前获取数据
             this.$store.dispatch('fetchHouses')
             this.$store.dispatch('fetchCharacters')
-            this.$store.dispatch('fetchCities')
+//            this.$store.dispatch('fetchCities')
         },
 
         methods: {
