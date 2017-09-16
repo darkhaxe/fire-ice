@@ -125,6 +125,7 @@ export const del = path => doRoute({
     path: path
 })
 
+let convert = middleware => (...args) => decorate(args, middleware)
 
 /**
  * 日志记录 decorator
@@ -144,7 +145,6 @@ let decorate = (args, middleware) => {
     return descriptor
 }
 
-let convert = middleware => (...args) => decorate(args, middleware)
 
 /*
   @required({
