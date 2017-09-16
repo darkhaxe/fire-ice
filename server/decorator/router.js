@@ -10,7 +10,7 @@ let reqID = 0
 const decorate = (args, middleware) => {
     let [target, key, descriptor] = args
 
-    target[key] = isArray(target[key])
+    target[key] = toArray(target[key])
     target[key].unshift(middleware)
 
     return descriptor
@@ -23,13 +23,13 @@ const decorate = (args, middleware) => {
 通过 Symbol 生成的值，与任何其他的值都不相等，也就是说，每一个 Symbol 都是独一无二的不会重复的，
 而且创建后不能修改，这就保证了它的唯一性，也不会被污染到。
 */
-export const symbolPrefix = Symbol('prefix')
-export let routersMap = new Map()
+const symbolPrefix = Symbol('prefix')
+let routersMap = new Map()
 
 // 判断是否数组,否则包装成数组
-export const isArray = arr => _.isArray(arr) ? arr : [arr]
+let toArray = arr => _.isArray(arr) ? arr : [arr]
 // 路径加上/
-export const normalizePath = path => path.startsWith('/') ? path : `/${path}`
+let normalizePath = path => path.startsWith('/') ? path : `/${path}`
 
 export class Route {
     /**
@@ -39,46 +39,86 @@ export class Route {
      */
     constructor(app, apiPath) {
         this.app = app
-        this.router = new Router()
+        this.koa_router = new Router()
         this.apiPath = apiPath
     }
 
     init() {
         // 遍历目录下所有的路由文件
         glob.sync(resolve(this.apiPath, './*.js')).forEach(require)
-        _.forIn(routersMap, (value, key) => {
-            console.log(value, key)
-        })
-        // 解析 路径->处理的controller
-        for (let [conf, controller] of routersMap) {
-            const controllers = isArray(controller)
-            let prefixPath = conf.target[symbolPrefix]
+        // _.forIn(routersMap, (value, key) => {
+        //     console.log(`routerMap内容:value=${value},key=${ key}`)
+        // })
+
+        for (let [target_controller_config, methods] of routersMap) {
+            let methods = toArray(methods)
+            let prefixPath = target_controller_config.target[symbolPrefix]
             if (prefixPath) prefixPath = normalizePath(prefixPath)
-            const routerPath = prefixPath + conf.path
-            // 将get,post方法对应的控制器
-            this.router[conf.method](routerPath, ...controllers)
+            let routerPath = prefixPath + target_controller_config.path
+            // Router['get']('/wx-hear',)
+            this.koa_router[target_controller_config.method](routerPath, ...methods)
         }
 
-        this.app.use(this.router.routes())
-        this.app.use(this.router.allowedMethods())
+        this.app.use(this.koa_router.routes())
+        this.app.use(this.koa_router.allowedMethods())
     }
 }
 
-// 服务端路由
-export const router = conf => (target, key, descriptor) => {
-    conf.path = normalizePath(conf.path)
+/**
+ * 服务端路由
+ * 控制器上@get('/xxx'),@post('/xxx')
+ * @param target_controller_config 调用参数传入值{method:'get',path:'/xxx'},然后在返回的闭包函数里,给conf加上target
+ */
+export const router = target_controller_config => (target_controller, method, descriptor) => {
+    // 给path加上斜杠
+    target_controller_config.path = normalizePath(target_controller_config.path)
+// 设置routerMap,给传入参数conf添加一个target属性,然后整个Object作为一个key
+// {k:{target:WxController,method:'get',path:'/xxx'},v:WxController[wxHear]}
+    routersMap.set({target: target_controller, ...target_controller_config}, target_controller[method])
+    /*
+    解析:
+    target_controller=具体的controller类 如WxController {}
+    target_controller[method]即 WxController中的函数wxHear(ctx, next):
+    WxController[wxHear]=function (_x, _x2) {
+        return _ref.apply(this, arguments);
+        },wxHear(ctx, next) {
+        return _asyncToGenerator(function* () {
+            const middle = (0, _wechatMiddleware2.default)(_config2.default.core, _reply2.default);
+            yield middle(ctx, next);
+        })();
+    }
 
-    routersMap.set({
-        target: target,
-        ...conf
-    }, target[key])
+     */
+
+    // console.log(`-----------------------------------------------------`)
+    // console.log(`执行router:key=${key} target[key]=${target[key]}`)
+    // console.log(target)
+    // console.log(`-----------------------------------------------------`)
+
 }
+//es5 写法 闭包
+// var router = function router(conf) {
+//     return function (target, key, descriptor) {
+//         conf.path = normalizePath(conf.path); // 给path加上斜杠
+//         routersMap.set(_extends({
+//             target: target
+//         }, conf), target[key]);
+//     };
+// };
 
 export const controller = path => target => {
     // 保证controller唯一
+    // 在使用@controller时为 目标类 添加一个field {"prefix":path}
     target.prototype[symbolPrefix] = path
 }
+// function controller(path) {
+//     return function (target) {
+//         // 保证controller唯一
+//         target.prototype[symbolPrefix] = path;
+//     };
+// };
 
+//router({})返回一个函数 ,@get()实施装饰器
 export const get = path => router({
     method: 'get',
     path: path
