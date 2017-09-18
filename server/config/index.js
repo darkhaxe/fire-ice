@@ -7,9 +7,9 @@ export default {
         token: 'fire-ice'
     },
     qiniu: {
-        AK: "你的七牛 AK",
-        SK: "你的七牛 SK",
-        bucket: "你的七牛 bucket",
-        qiniuURL: "bucket 对应的测试地址"
+        AK: "6EzoRDBnW6uSRjIKRmhh9UdPobK859M1O0zLvKMd",
+        SK: "gU7g43xvNd-cwmXoMeI9bOb_RpgfwiajWeaZaB4G",
+        bucket: "fire-ice-img",
+        qiniuURL: "owgk6d07w.bkt.clouddn.com"
     },
 }

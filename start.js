@@ -17,4 +17,5 @@ require('babel-core/register')({
 
 // babel转换,与引入server下的真正启动文件
 require('babel-polyfill')
-require('./server')
+require('./server') // /server/index.js启动服务器
+// require('./server/crawler/wikiData.js') //文件抓取到7牛

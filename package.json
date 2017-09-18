@@ -14,6 +14,8 @@
   "dependencies": {
     "axios": "^0.16.2",
     "babel-preset-stage-3": "6.24.1",
+    "cheerio": "^1.0.0-rc.2",
+    "cheerio-advanced-selectors": "^1.1.1",
     "cross-env": "^5.0.1",
     "ejs": "^2.5.7",
     "fs": "^0.0.1-security",
@@ -29,6 +31,7 @@
     "qiniu": "^7.0.8",
     "qshell": "^0.2.0",
     "ramda": "^0.24.1",
+    "random-token": "^0.0.8",
     "raw-body": "^2.3.0",
     "request-promise": "^4.2.1",
     "sass-loader": "^6.0.6",
