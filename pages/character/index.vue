@@ -1,9 +1,9 @@
 <template lang="pug">
     .container
         .focusCharacters-header
-            img.focusCharacters-header-bg(v-if='character.images', :src="character.images[character.images.length - 1]")
+            img.focusCharacters-header-bg(v-if='character.images', :src="imageCDN + character.images[character.images.length - 1] + '?imageView2/1/w/375/h/230/format/jpg/q/90|imageslim'")
             .focusCharacters-media
-                img(v-if='character.profile', :src="character.profile")
+                img(v-if='character.profile', :src="imageCDN + character.profile + '?imageView2/1/w/280/h/440/format/jpg/q/75|imageslim'")
                 .focusCharacters-text
                     .names
                         p.cname {{ character.cname }}
@@ -18,11 +18,11 @@
                 p(v-for='item in character.intro') {{ item }}
 
             .focusCharacter-stills
-                img(v-for='item in character.images', :src="item")
+                img(v-for='item in character.images', :src="imageCDN + item + '?imageView2/1/w/750/h/460/format/jpg/q/90|imageslim'")
 
             .focusCharacter-item(v-for='item in character.sections')
                 .focusCharacter-item-title {{ item.title }}
-                .focusCharacter-item-body(v-for='text in character.content') {{ text }}
+                .focusCharacter-item-body(v-for='text in item.content') {{ text }}
 </template>
 
 <script>
@@ -40,7 +40,7 @@
         },
         computed: {
             ...mapState({
-//    imageCDN: 'imageCDN',
+                imageCDN: 'imageCDN',
                 character: 'currentCharacter'
             })
         },

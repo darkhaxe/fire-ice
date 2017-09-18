@@ -248,8 +248,8 @@ export const fetchImagesFromA2Q = async () => {
         await fetchImage(item.profile, key)
         console.log(`url=${item.profile}`)
         item.profile = key
-
-        for (let i = 0; i < 1; ++i) {//item.images.length
+        //遍历每个人物的images数组
+        for (let i = 0; i < item.images.length; ++i) {
             let _key = `${item.name}/${randomToken(32)}`
             try {
                 await fetchImage(item.images[i], _key)
@@ -271,7 +271,25 @@ export const fetchImagesFromA2Q = async () => {
     // writeFileSync(jsonPath('wikiCharacters.json'), JSON.stringify(IMDbCharacters, null, 4), 'utf8')
 }
 
+//
+let replaceProfile = () => {
+    let completeImages = require(jsonPath('completedImgs.json'))
+    let wikiCharacters = require(jsonPath('wikiCharacters.json'))
+    wikiCharacters.forEach(item => {
+        completeImages.forEach(comp => {
+            if (item._id === comp.nmId) {
+                console.log(item.name)
+                item.profile = comp.profile //替换为七牛图片的key
+                item.images = comp.images
+            }
+        })
+    })
+    console.log('replace job done!')
+    writeFileSync('./finalMongoChar.json', JSON.stringify(wikiCharacters, null, 4), 'utf8')
+}
+// replaceProfile()
+
 
 // getHouses()
 // getSwornMembers()
-//fetchImagesFromA2Q()
+// fetchImagesFromA2Q()
