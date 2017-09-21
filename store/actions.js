@@ -61,6 +61,32 @@ export default {
         const res = await Services.fetchUserAndOrders()
         state.authUser = res.data.data
         return res
-    }
+    },
+    /**
+     * 保存商品
+     * @param state
+     * @param dispatch
+     * @param product
+     * @returns {Promise.<void>}
+     */
+    async saveProduct({state, dispatch}, product) {
+        await axios.post('/api/products', product)
+        let res = await dispatch('fetchProducts')
+
+        return res.data
+    },
+    /**
+     * 更新商品
+     * @param state
+     * @param dispatch
+     * @param product
+     * @returns {Promise.<void>}
+     */
+    async putProduct({state, dispatch}, product) {
+        await axios.put('/api/products', product)
+        let res = await dispatch('fetchProducts')
+
+        return res.data
+    },
 
 }

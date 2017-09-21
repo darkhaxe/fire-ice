@@ -4,7 +4,7 @@
             .shopping-title 权游周边
             .shopping-list
                 .shopping-item(v-for='(item, index) in products' :key='index' @click='focusProduct(item)')
-                    img(:src="item.images[0]")
+                    img(:src="imageCDN + item.images[0]")
                     .shopping-item-body
                         .title {{ item.title }}
                         .content {{ item.intro }}
@@ -16,7 +16,7 @@
     import {mapState} from 'vuex'
 
     export default {
-//    middleware: 'wechat-auth',
+        middleware: 'wechat-auth',
         head() {
             return {
                 title: '周边手办'
@@ -24,9 +24,9 @@
         },
         computed: {
             ...mapState([
-//        'imageCDN',
+                'imageCDN',
                 'products',
-//        'shoppingScroll'
+                'shoppingScroll'
             ])
         },
         methods: {
@@ -43,7 +43,11 @@
             setTimeout(() => {
                 this.$el.scrollTop = this.shoppingScroll
             }, 50)
-    }
+        },
+        beforeDestroy() {
+            // 离开前保存滚动条位置
+            this.$store.dispatch('shoppingScroll', this.$el.scrollTop)
+        }
     }
 </script>
 
