@@ -30,7 +30,7 @@
     "nuxt": "1.0.0-alpha1",
     "path": "^0.12.7",
     "pug": "^2.0.0-rc.3",
-    "qiniu": "^7.0.8",
+    "qiniu": "6.1.13",
     "qiniu-web-uploader": "^2.1.2",
     "qshell": "^0.2.0",
     "ramda": "^0.24.1",
@@ -43,7 +43,8 @@
     "source-map-support": "^0.4.15",
     "vue-awesome-swiper": "^2.6.4",
     "vuex": "^2.4.0",
-    "xml2js": "^0.4.19"
+    "xml2js": "^0.4.19",
+    "xss": "^0.3.4"
   },
   "devDependencies": {
     "babel-eslint": "^7.1.1",

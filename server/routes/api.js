@@ -1,7 +1,7 @@
 import {controller, get, post, put, log, convert, required} from '../decorator/router'
 import mongoose from 'mongoose'
 import qiniu from '../libs/qiniu'
-import {randomIntro} from '../libs/exam'
+// import {randomIntro} from '../libs/exam'
 import _ from 'lodash'
 import xss from 'xss'
 import R from 'ramda'
@@ -10,10 +10,10 @@ const Character = mongoose.model('Character')
 const House = mongoose.model('House')
 const Book = mongoose.model('Book')
 const IMDb = mongoose.model('IMDb')
-const User = mongoose.model('User')
+// const User = mongoose.model('User')
 const Product = mongoose.model('Product')
-const Payment = mongoose.model('Payment')
-const ExamResult = mongoose.model('ExamResult')
+// const Payment = mongoose.model('Payment')
+// const ExamResult = mongoose.model('ExamResult')
 
 const NINE_HOUSES = [
     `House Stark of Winterfell`,
@@ -132,13 +132,14 @@ export class DatabaseController {
             .find({})
             .limit(Number(limit))
             .exec()
-
+// console.log(products)
         ctx.body = products
     }
 
     @post('products')
     async postProducts(ctx, next) {
         let reqProd = ctx.request.body
+        console.log(ctx.request.body)
         let prod = {
             title: xss(reqProd.title),
             price: xss(reqProd.price),
@@ -184,6 +185,7 @@ export class DatabaseController {
         }
     }
 
+    //获取七牛的token,用于图片上传校验
     @get('qiniu/token')
     async qiniuToken(ctx, next) {
         let key = ctx.query.key

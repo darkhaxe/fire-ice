@@ -13,7 +13,7 @@ const createStore = () => {
             products: [],
             currentHouse: {},
             currentCharacter: {},
-            currentProduct: {},
+            product: {},
             authUser: {}// 5-9
 
         },

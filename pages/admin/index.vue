@@ -86,7 +86,7 @@
     import vSnackbar from '~components/snackbar'
 
     export default {
-        middleware: 'auth',
+//        middleware: 'auth',  todo 20170923 一个不存在middleware属性会导致路由进入此页面时候转向404
         layout: 'admin',
         head() {
             return {
@@ -113,10 +113,8 @@
         },
         mounted() {
             let polyline = document.querySelector('#outline')
-            let totalLength = polyline.getTotalLength()
-
-            this.upload.dasharray = totalLength
-            this.upload.dashoffset = totalLength
+            this.upload.dasharray = polyline.getTotalLength()
+            this.upload.dashoffset = polyline.getTotalLength()
         },
         computed: mapState([
             'imageCDN',
@@ -142,6 +140,7 @@
                 this.editing = true
             },
             async saveEdited() {
+//                console.log(this.edited)
                 this.isProduct
                     ? await this.$store.dispatch('putProduct', this.edited)
                     : await this.$store.dispatch('saveProduct', this.edited)
@@ -175,11 +174,12 @@
             },
             async uploadImg(e) {
                 this.upload.dashoffset = this.upload.dasharray
-                var file = e.target.files[0]
-                var key = randomToken(32)
+                let file = e.target.files[0]
+                let key = randomToken(32)
 
-                key = `relatedproducts/${key}`
+                key = `products/${key}`
                 let token = await this.getUptoken(key)
+                console.log(`qiniu token=${token}`)
 
                 let uptoken = {
                     uptoken: token,
@@ -189,15 +189,14 @@
                 let uploader = new Uploader(file, uptoken)
 
                 uploader.on('progress', () => {
-                    let dashoffset = this.upload.dasharray * (1 - uploader.percent)
-                    this.upload.dashoffset = dashoffset
+                    this.upload.dashoffset = this.upload.dasharray * (1 - uploader.percent)
                 })
 
                 let res = await uploader.upload()
                 uploader.cancel()
                 console.log(res)
                 this.edited.images.push(res.key)
-                // this.upload.dashoffset = 0
+
             }
         },
         components: {

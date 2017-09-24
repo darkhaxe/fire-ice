@@ -13,7 +13,9 @@ config.dev = !(process.env === 'production') // 判断是否生产环境
 const r = path => resolve(__dirname, path)
 const host = process.env.HOST || '127.0.0.1'
 const port = process.env.POST || 3000
-const MIDDLEWARES = ['database', 'router']
+//本项目加载的中间件
+//common.js是解析post参数的中间件,必须放在router之前才能生效
+const MIDDLEWARES = ['database', 'common', 'router']
 
 class Server {
     constructor() {

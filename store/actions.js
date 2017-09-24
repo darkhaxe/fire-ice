@@ -1,4 +1,5 @@
 import Services from './services'
+import axios from 'axios'
 
 export default {
     getWechatSignature({commit}, url) {
@@ -47,14 +48,14 @@ export default {
     },
     async fetchProducts({state}) {
         let res = await Services.fetchProducts()
-        state.products = res.data.data
+        state.products = res.data
         return res
     },
     async focusProduct({state}, _id) {
-        if (_id === state.currentProduct._id) return
+        if (_id === state.product._id) return
         let res = await Services.fetchProduct(_id)
-        // console.log(res)
-        state.currentProduct = res.data.data
+        console.log(res.data)
+        state.product = res.data
         return res
     },
     async fetchUserAndOrders({state}) {
@@ -70,6 +71,7 @@ export default {
      * @returns {Promise.<void>}
      */
     async saveProduct({state, dispatch}, product) {
+        console.log(product)
         await axios.post('/api/products', product)
         let res = await dispatch('fetchProducts')
 

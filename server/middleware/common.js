@@ -1,6 +1,6 @@
 import koaBody from 'koa-bodyparser'
 import session from 'koa-session'
-
+//7-5节:koaBody用于aplication/json参数解析
 export const addBody = app => {
     app.use(koaBody())
 }

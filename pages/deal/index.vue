@@ -4,15 +4,15 @@
             .focus-goods-swiper(v-swiper='swiperConfig')
                 .swiper-wrapper
                     .swiper-slide(v-for='item in product.images')
-                        img(:src="item")
+                        img(:src="imageCDN+item")
 
                 .swiper-pagination.swiper-pagination-bullets
 
             .focus-goods-content
 
                 .focus-goods-price(v-if='product.price')
-                    span.focus-goods-price_main {{ product.price.toFixed(2) - product.price.toFixed(2).substr(-3) }}
-                    span.focus-goods-price_others {{ product.price.toFixed(2).substr(-3) }}
+                    span.focus-goods-price_main {{ Number(product.price).toFixed(2) - Number(product.price).toFixed(2).substr(-3) }}
+                    span.focus-goods-price_others {{ Number(product.price).toFixed(2).substr(-3) }}
 
                 .focus-goods-name {{ product.title }}
 
@@ -70,10 +70,7 @@
             }
         },
         computed: {
-            ...mapState({
-//    imageCDN: 'imageCDN',
-                product: 'currentProduct'
-            })
+            ...mapState(['imageCDN', 'product'])
         },
         methods: {
             payHandle() {

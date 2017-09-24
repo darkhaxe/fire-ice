@@ -8,7 +8,7 @@ qiniu.conf.SECRET_KEY = config.qiniu.SK
 const bucket = config.qiniu.bucket
 
 // const bucketManager = new qiniu.rs.Client()
-
+//uptoken 应该使用qiniu@6.1.13 ,更高版本的七牛包不适用
 const uptoken = (key) => new qiniu.rs.PutPolicy(`${bucket}:${key}`).token()
 
 const uploadFile = (uptoken, key, localFile) => new Promise((resolve, reject) => {

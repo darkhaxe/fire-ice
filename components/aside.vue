@@ -8,7 +8,7 @@
             li
                 nuxt-link(to='/admin/houses') 九大家族
             li
-                nuxt-link(to='/admin/related-products') 周边
+                nuxt-link(to='/admin/products') 周边
             li
                 nuxt-link(to='/admin/payments') 订单
 </template>

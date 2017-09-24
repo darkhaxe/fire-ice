@@ -16,7 +16,7 @@
     import {mapState} from 'vuex'
 
     export default {
-        middleware: 'wechat-auth',
+//        middleware: 'wechat-auth',
         head() {
             return {
                 title: '周边手办'
@@ -26,7 +26,7 @@
             ...mapState([
                 'imageCDN',
                 'products',
-                'shoppingScroll'
+//                'shoppingScroll'
             ])
         },
         methods: {
@@ -40,13 +40,13 @@
         },
         mounted() {
             // 滚动条滚动至上次离开前的位置
-            setTimeout(() => {
-                this.$el.scrollTop = this.shoppingScroll
-            }, 50)
+//            setTimeout(() => {
+//                this.$el.scrollTop = this.shoppingScroll
+//            }, 50)
         },
         beforeDestroy() {
             // 离开前保存滚动条位置
-            this.$store.dispatch('shoppingScroll', this.$el.scrollTop)
+//            this.$store.dispatch('shoppingScroll', this.$el.scrollTop)
         }
     }
 </script>
